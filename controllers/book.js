@@ -5,6 +5,7 @@ import {
     getBook,
     updateBook
 } from '../services/book.service.js';
+import bookValidation from '../validators/book.validator.js';
 
 export const addOneBook = async (req, res) => {
     try {
@@ -18,18 +19,18 @@ export const addOneBook = async (req, res) => {
 
 export const deleteOneBook = async (req, res) => {
     try {
-        /* const validationResult = validationSchema.BOOK_ID.validate(req.params, {
-           abortEarly: false,
-         });
-         if (validationResult.error) {
-           const errorMessage = validationResult.error.details
-             .map((detail) => detail.message)
-             .join(", ");
-     
-           const error = new Error(errorMessage);
-           error.statusCode = 400;
-           throw error;
-         }*/
+        const validationResult = bookValidation.BOOK_ID.validate(req.params, {
+            abortEarly: false,
+        });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details
+                .map((detail) => detail.message)
+                .join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
 
         const id = req.params.id;
         await deleteBook(id);
@@ -42,24 +43,24 @@ export const deleteOneBook = async (req, res) => {
 
 export const updateOneBook = async (req, res) => {
     try {
-        /* const validationResult = validationSchema.BOOK_ID.validate(req.params, {
-             abortEarly: false,
-         });
-         if (validationResult.error) {
-             const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
- 
-             const error = new Error(errorMessage);
-             error.statusCode = 400;
-             throw error;
-         }
- 
-         const validationResult2 = validationSchema.UPDATE_BOOK.validate(req.body, {
-             abortEarly: false,
-         });
-         if (validationResult2.error) {
-             res.status(400).send(validationResult2.error.details[0].message);
-             return;
-         }*/
+        const validationResult = bookValidation.BOOK_ID.validate(req.params, {
+            abortEarly: false,
+        });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const validationResult2 = bookValidation.UPDATE_BOOK.validate(req.body, {
+            abortEarly: false,
+        });
+        if (validationResult2.error) {
+            res.status(400).send(validationResult2.error.details[0].message);
+            return;
+        }
 
         const id = req.params.id;
         const updatedBook = req.body;
@@ -73,17 +74,17 @@ export const updateOneBook = async (req, res) => {
 
 export const getOneBook = async (req, res) => {
     try {
-        /*     const validationResult = validationSchema.BOOK_ID.validate(req.params, {
-                    abortEarly: false,
-                });
-                if (validationResult.error) {
-                    const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
-        
-                    const error = new Error(errorMessage);
-                    error.statusCode = 400;
-                    throw error;
-                }
-        */
+        const validationResult = bookValidation.BOOK_ID.validate(req.params, {
+            abortEarly: false,
+        });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
+
         const id = req.params.id;
         const book = await getBook(id);
 
@@ -95,18 +96,18 @@ export const getOneBook = async (req, res) => {
 
 export const listBooks = async (req, res) => {
     try {
-        /*  const validationResult = validationSchema.GET_ALL_BOOKS.validate(
-              req.query,
-              { abortEarly: false }
-          );*/
-        /*    if (validationResult.error) {
-                const errorMessage = validationResult.error.details
-                    .map((detail) => detail.message).join(", ");
-    
-                const error = new Error(errorMessage);
-                error.statusCode = 400;
-                throw error;
-            }*/
+        const validationResult = bookValidation.GET_ALL_BOOKS.validate(
+            req.query,
+            { abortEarly: false }
+        );
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details
+                .map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
 
         const books = await getBooks(req.query);
         res.json(books);
@@ -118,20 +119,20 @@ export const listBooks = async (req, res) => {
 // paginated
 export const listAllBooks = async (req, res) => {
     try {
-        /* const validationResult = validationSchema.GET_BOOKS_PAGINATED.validate(
-           req.query,
-           { abortEarly: false }
-         );
-         if (validationResult.error) {
-           const errorMessage = validationResult.error.details
-             .map((detail) => detail.message)
-             .join(", ");
-     
-           const error = new Error(errorMessage);
-           error.statusCode = 400;
-           throw error;
-         }
-     */
+        const validationResult = bookValidation.GET_BOOKS_PAGINATED.validate(
+            req.query,
+            { abortEarly: false }
+        );
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details
+                .map((detail) => detail.message)
+                .join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
+
         const page = req.query.page;
         const pageSize = req.query.pageSize;
         const books = await getBooks(req.query);

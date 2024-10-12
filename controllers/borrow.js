@@ -5,6 +5,7 @@ import {
     getUserBorrowing,
     getAllOverdueBooks
 } from '../services/borrow.service.js';
+import borrowValidation from '../validators/borrow.validator.js';
 
 export const getAllBorrowingHistory = async (req, res) => {
     try {
@@ -17,19 +18,16 @@ export const getAllBorrowingHistory = async (req, res) => {
 
 export const BorrowingPaginated = async (req, res) => {
     try {
-        /*  const validationResult =
-              validationSchema.BORROWING_HISTORY_PAGINATED.validate(req.query, {
-                  abortEarly: false,
-              });
-          if (validationResult.error) {
-              const errorMessage = validationResult.error.details
-                  .map((detail) => detail.message)
-                  .join(", ");
-  
-              const error = new Error(errorMessage);
-              error.statusCode = 400;
-              throw error;
-          }*/
+        const validationResult = borrowValidation.BORROWING_HISTORY_PAGINATED.validate(req.query, {
+            abortEarly: false,
+        });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
         const borrowingRecords = await getBorrowingHistory(req.query);
         res.json(borrowingRecords);
     } catch (err) {
@@ -50,19 +48,14 @@ export const getOverdueBooks = async (req, res) => {
 
 export const getBorrowedBooksByUseId = async (req, res) => {
     try {
-        /*const validationResult = validationSchema.GET_CLIENT_BORROWING.validate(
-            req.params,
-            { abortEarly: false }
-        );
+        const validationResult = borrowValidation.GET_CLIENT_BORROWING.validate(req.params, { abortEarly: false });
         if (validationResult.error) {
-            const errorMessage = validationResult.error.details
-                .map((detail) => detail.message)
-                .join(", ");
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
 
             const error = new Error(errorMessage);
             error.statusCode = 400;
             throw error;
-        }*/
+        }
 
         const userId = req.params.userId;
         const borrowingRecords = await getUserBorrowing(userId);
@@ -74,18 +67,16 @@ export const getBorrowedBooksByUseId = async (req, res) => {
 
 export const borrowBook = async (req, res) => {
     try {
-        /*  const validationResult = validationSchema.BORROW_BOOK.validate(req.body, {
-              abortEarly: false,
-          });
-          if (validationResult.error) {
-              const errorMessage = validationResult.error.details
-                  .map((detail) => detail.message)
-                  .join(", ");
-  
-              const error = new Error(errorMessage);
-              error.statusCode = 400;
-              throw error;
-          }*/
+        const validationResult = borrowValidation.BORROW_BOOK.validate(req.body, {
+            abortEarly: false,
+        });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
 
         const createdBorrowingRecord = await borrowOneBook(req.body);
 
@@ -97,19 +88,17 @@ export const borrowBook = async (req, res) => {
 
 export const returnBook = async (req, res) => {
     try {
-        /* const validationResult = validationSchema.RETURN_BOOK.validate(req.params, {
-           abortEarly: false,
-         });
-         if (validationResult.error) {
-           const errorMessage = validationResult.error.details
-             .map((detail) => detail.message)
-             .join(", ");
-     
-           const error = new Error(errorMessage);
-           error.statusCode = 400;
-           throw error;
-         }
-     */
+        const validationResult = borrowValidation.RETURN_BOOK.validate(req.params, {
+            abortEarly: false,
+        });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
+
         const borrowRecordId = req.params.borrowRecordId;
         const updatedBorrow = await returnOneBook(borrowRecordId);
 

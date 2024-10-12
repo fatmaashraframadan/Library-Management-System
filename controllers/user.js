@@ -5,6 +5,7 @@ import {
     updateOneUser,
     deleteOneUser
 } from '../services/user.service.js';
+import userValidation from '../validators/user.validator.js';
 
 export const getUsers = async (req, res) => {
     try {
@@ -18,17 +19,17 @@ export const getUsers = async (req, res) => {
 // Paginated
 export const getUsersPaginated = async (req, res) => {
     try {
-        /* const validationResult = validationSchema.GET_CLIENTS_PAGINATED.validate(
-             req.query,
-             { abortEarly: false }
-         );
-         if (validationResult.error) {
-             const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
- 
-             const error = new Error(errorMessage);
-             error.statusCode = 400;
-             throw error;
-         }*/
+        const validationResult = userValidation.GET_CLIENTS_PAGINATED.validate(
+            req.query,
+            { abortEarly: false }
+        );
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
 
         const page = req.query.page;
         const pageSize = req.query.pageSize;
@@ -55,6 +56,15 @@ export const AddUser = async (req, res) => {
 // API to get a client by id
 export const getUser = async (req, res) => {
     try {
+        const validationResult = validationSchema.CREATE_CLIENT.validate(req.body, { abortEarly: false, });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
+
         const user = await getUserById(req.params.id);
         if (!user) {
             res.status(404).send("User not found");
@@ -70,19 +80,15 @@ export const getUser = async (req, res) => {
 // API to update a client by id
 export const updateUser = async (req, res) => {
     try {
-        /*       const validationResult = validationSchema.UPDATE_CLIENT.validate(req.body, {
-                   abortEarly: false,
-               });
-               if (validationResult.error) {
-                   const errorMessage = validationResult.error.details
-                       .map((detail) => detail.message)
-                       .join(", ");
-       
-                   const error = new Error(errorMessage);
-                   error.statusCode = 400;
-                   throw error;
-               }
-       */
+        const validationResult = userValidation.UPDATE_CLIENT.validate(req.body, { abortEarly: false, });
+        if (validationResult.error) {
+            const errorMessage = validationResult.error.details.map((detail) => detail.message).join(", ");
+
+            const error = new Error(errorMessage);
+            error.statusCode = 400;
+            throw error;
+        }
+
         const updatedUser = await updateOneUser(
             req.params.id,
             req.body
