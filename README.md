@@ -33,4 +33,4 @@ JavaScript, Node.js, Express, Postgress, Joi, Sequelize
 
 ## APIs
 The Postman collection is available in this repository:  
-[postman-collection.json]([./postman-collection.json](https://github.com/fatmaashraframadan/Library-Management-System/blob/main/Library-Management-System.postman_collection.json))
+[postman-collection.json]([https://github.com/fatmaashraframadan/Library-Management-System/blob/main/Library-Management-System.postman_collection.json])
