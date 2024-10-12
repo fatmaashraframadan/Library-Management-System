@@ -32,4 +32,5 @@ JavaScript, Node.js, Express, Postgress, Joi, Sequelize
 5. run node index.js
 
 ## APIs
-
+The Postman collection is available in this repository:  
+[postman-collection.json](./postman-collection.json)
