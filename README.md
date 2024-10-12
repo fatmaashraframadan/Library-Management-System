@@ -21,8 +21,6 @@
 - View borrowed books: A borrower can check the books they currently have.  
 - Track overdue books: The system should keep track of due dates and list books that are overdue.
 
-
-
 ## Technologies Used
 JavaScript, Node.js, Express, Postgress, Joi, Sequelize
 
@@ -34,3 +32,4 @@ JavaScript, Node.js, Express, Postgress, Joi, Sequelize
 5. run node index.js
 
 ## APIs
+
