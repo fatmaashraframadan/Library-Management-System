@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../db.js";
+import sequelize from "../config/db.js";
 
 const Book = sequelize.define(
     "book",
@@ -15,7 +15,6 @@ const Book = sequelize.define(
             validate: {
                 notNull: true,
                 notEmpty: true,
-                is: "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$",
             },
         },
         title: {
@@ -45,11 +44,7 @@ const Book = sequelize.define(
         },
         shelf_location: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-            },
+            allowNull: true,
         }
     },
     {

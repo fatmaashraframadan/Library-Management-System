@@ -1,6 +1,7 @@
 import express from 'express';
 import sequelize from './config/db.js';
-import dotenv from 'dotenv'; 
+import routers from "./routers/index.js";
+import dotenv from 'dotenv';
 
 // Load env variables
 dotenv.config();
@@ -8,7 +9,7 @@ dotenv.config();
 const app = express();
 
 const port = process.env.PORT || 8080;
-const DB_NAME = process.env.DB_NAME || "libraryManagementSystem";
+const DB_NAME = process.env.DB_NAME || "libraryManagementSystem1";
 
 
 app.use(express.json());
@@ -18,6 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
     res.send('<h1>This is Get request!</h1>')
 });
+
+app.use("/v1", routers);
 
 const createDatabaseIfNotExists = async () => {
     try {
