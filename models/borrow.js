@@ -32,6 +32,10 @@ const Borrow = sequelize.define("borrow", {
     dueDate: {
         type: DataTypes.DATE,
         allowNull: true,
+    },
+    isReturned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 });
 
