@@ -2,11 +2,11 @@ import express from "express";
 
 import {
     getUsers,
-    getAllUsers,
     AddUser,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUsersPaginated
 } from "../controllers/user.js";
 
 const router = express.Router();
@@ -16,9 +16,11 @@ router.route("/")
     .post(AddUser);
 
 router.route("/all")
-    .get(getAllUsers)
+    .get(getUsersPaginated)
 
 router.route("/:id")
     .delete(deleteUser)
     .put(updateUser)
     .get(getUser)
+
+export default router;

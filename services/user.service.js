@@ -2,7 +2,7 @@ import userDal from '../dal/user.dal.js';
 import borrowDal from '../dal/book.dal.js';
 import Op from 'sequelize';
 
-async function getUser(id) {
+export async function getUserById(id) {
     const users = await getUsers({ id });
 
     if (users.length > 0) {
@@ -14,7 +14,7 @@ async function getUser(id) {
     }
 }
 
-async function getUsers(query) {
+export async function getAllUsers(query) {
     if (query) {
         const { page, pageSize, ...filter } = query;
         const options = {};
@@ -28,17 +28,17 @@ async function getUsers(query) {
     return await userDal.listUsers();
 }
 
-async function AddUser(user) {
+export async function AddNewUser(user) {
     user.createdAt = new Date();
 
     return await userDal.addUser(user);
 }
 
-async function updateUser(userId, updatedUser) {
+export async function updateOneUser(userId, updatedUser) {
     return await userDal.updateUser(userId, updatedUser);
 }
 
-async function deleteUser(userId) {
+export async function deleteOneUser(userId) {
     const borrowings = await borrowDal.getAll({
         userId,
         borrowedAt: {
@@ -54,11 +54,3 @@ async function deleteUser(userId) {
         return await userDal.deleteUser(userId);
     }
 }
-
-module.exports = {
-    getUser,
-    getUsers,
-    AddUser,
-    updateUser,
-    deleteUser
-};

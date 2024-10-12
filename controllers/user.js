@@ -1,8 +1,14 @@
-import userService from '../services/user.service.js';
+import {
+    getUserById,
+    getAllUsers,
+    AddNewUser,
+    updateOneUser,
+    deleteOneUser
+} from '../services/user.service.js';
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await userService.getUsers();
+        const users = await getAllUsers();
         res.json(users);
     } catch (err) {
         res.status(err.statusCode || 500).json({ error: err.message || "Internal server error" });
@@ -10,7 +16,7 @@ export const getUsers = async (req, res) => {
 };
 
 // Paginated
-export const getAllUsers = async (req, res) => {
+export const getUsersPaginated = async (req, res) => {
     try {
         /* const validationResult = validationSchema.GET_CLIENTS_PAGINATED.validate(
              req.query,
@@ -26,7 +32,7 @@ export const getAllUsers = async (req, res) => {
 
         const page = req.query.page;
         const pageSize = req.query.pageSize;
-        const users = await userService.getUsers({ page, pageSize });
+        const users = await getAllUsers({ page, pageSize });
 
         res.json(users);
     } catch (err) {
@@ -38,7 +44,7 @@ export const getAllUsers = async (req, res) => {
 export const AddUser = async (req, res) => {
     try {
         const newUser = req.body;
-        const user = await clientsService.createClient(newUser);
+        const user = await AddNewUser(newUser);
 
         res.status(201).json(user);
     } catch (err) {
@@ -49,7 +55,7 @@ export const AddUser = async (req, res) => {
 // API to get a client by id
 export const getUser = async (req, res) => {
     try {
-        const user = await userService.getUser(req.params.id);
+        const user = await getUserById(req.params.id);
         if (!user) {
             res.status(404).send("User not found");
             return;
@@ -77,7 +83,7 @@ export const updateUser = async (req, res) => {
                    throw error;
                }
        */
-        const updatedUser = await userService.updateUser(
+        const updatedUser = await updateOneUser(
             req.params.id,
             req.body
         );
@@ -86,7 +92,7 @@ export const updateUser = async (req, res) => {
             return;
         }
 
-        res.sendStatus(204).send(updateUser);
+        res.sendStatus(204).send(updatedUser);
     } catch (err) {
         res.status(err.statusCode || 500).json({ error: err.message || "Internal server error" });
     }
@@ -95,7 +101,7 @@ export const updateUser = async (req, res) => {
 // API to delete a client by id
 export const deleteUser = async (req, res) => {
     try {
-        const deletedUsers = await userService.deleteUser(req.params.id);
+        const deletedUsers = await deleteOneUser(req.params.id);
         if (!deletedUsers) {
             res.status(404).send("User not found");
             return;
