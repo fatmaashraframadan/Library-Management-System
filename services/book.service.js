@@ -1,5 +1,6 @@
 import bookDal from '../dal/book.dal.js';
 import borrowDal from '../dal/borrow.dal.js';
+import Op from 'sequelize';
 
 export async function getBook(id) {
     const book = bookDal.findBookById(id);
