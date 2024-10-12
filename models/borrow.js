@@ -1,9 +1,9 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
-const Book = require("./books.js");
-const Client = require("./user.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.js";
+import Book from "./book.js";
+import User from "./user.js";
 
-const Borrowing = sequelize.define("borrowing", {
+const Borrow = sequelize.define("borrow", {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -19,14 +19,11 @@ const Borrowing = sequelize.define("borrowing", {
         type: DataTypes.UUID,
         allowNull: false,
         validate: { notNull: true, notEmpty: true },
-        references: { model: "user", key: "id" },
+        references: { model: "users", key: "id" },
     },
     borrowedAt: {
         type: DataTypes.DATE,
-        allowNull: false,
-        validate: {
-            notNull: true,
-        },
+        allowNull: true,
     },
     returnedAt: {
         type: DataTypes.DATE,
@@ -34,23 +31,11 @@ const Borrowing = sequelize.define("borrowing", {
     },
     dueDate: {
         type: DataTypes.DATE,
-        allowNull: false,
-        validate: {
-            notNull: true,
-        },
-    },
-    status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notNull: true,
-            notEmpty: true,
-            isIn: [["STATUS_BORROWED", "STATUS_RETURNED"]],
-        },
-    },
+        allowNull: true,
+    }
 });
 
-Borrowing.belongsTo(Book, { foreignKey: "bookId", as: "book" });
-Borrowing.belongsTo(Client, { foreignKey: "borrowerId", as: "user" });
+Borrow.belongsTo(Book, { foreignKey: "bookId", as: "book" });
+Borrow.belongsTo(User, { foreignKey: "borrowerId", as: "user" });
 
-export default Borrowing;
+export default Borrow;

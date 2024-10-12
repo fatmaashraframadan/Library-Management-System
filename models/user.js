@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.js";
 
-const Client = sequelize.define("client", {
+const User = sequelize.define("user", {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -27,10 +27,12 @@ const Client = sequelize.define("client", {
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: new Date(),
         validate: {
             notNull: true,
         },
     },
+    // Futures updates: control user permissions by roles.
     role: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -41,4 +43,4 @@ const Client = sequelize.define("client", {
     }
 });
 
-module.exports = Client;
+export default User;
